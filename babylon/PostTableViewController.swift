@@ -24,17 +24,24 @@ class PostTableViewController: BaseTableViewController {
     
     override func viewDidLoad() {
         
-        
         self.title = "Posts"
         
         self.tableView.estimatedRowHeight = 40
         self.tableView.rowHeight = UITableViewAutomaticDimension
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateFinished", name: Globals.networkManager.updateFinished, object: nil)
         
         self.postDicts = self.networkManager?.networkCache?.getCachedResponse(Globals.networkCache.cachePosts)
         self.tableView.reloadData()
         
     }
 
+    func updateFinished(){
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        self.postDicts = self.networkManager?.networkCache?.getCachedResponse(Globals.networkCache.cachePosts)
+        self.tableView.reloadData()
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.postDicts?.count ?? 0
     }

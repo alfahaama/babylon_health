@@ -37,6 +37,7 @@ class Router {
         
         self.dataManager?.dataLoadAll({
             _ in
+            NSNotificationCenter.defaultCenter().postNotificationName(Globals.networkManager.updateFinished, object: nil)
         })
         
     }
